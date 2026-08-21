@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:18
+    container_name: RESTAPIS_BLUEPRINTS
+    environment:
+      POSTGRES_DB: Blueprint
+      POSTGRES_USER: Postgre
+      POSTGRES_PASSWORD: Arsw26
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
