@@ -89,9 +89,14 @@ src/main/java/edu/eci/arsw/blueprints
 - Configura una base de datos PostgreSQL (puedes usar Docker).
 - Implementa un nuevo repositorio `PostgresBlueprintPersistence` que reemplace la versión en memoria.
 - Mantén el contrato de la interfaz `BlueprintPersistence`.
+  <img width="535" height="262" alt="image" src="https://github.com/user-attachments/assets/f0d07703-81a4-4db6-8a4e-cf69a43a6c6c" />
+  Modificamos el application.properties para conectar con la DB que levantamos en Docker.
+  <img width="449" height="332" alt="image" src="https://github.com/user-attachments/assets/76d661ca-6182-4f2b-81bf-18feabe2b1dc" />
+  Archivo Compose.yaml que genera el docker.
 
-*(pendiente completar con lo que implementamos)*
+Añadimos la clase de PostgresBlueprintPersistence en la cual la dejamos aún como un repo, pero que se encarga de que todos los datos vayan a la DB de postgres.  
 
+  
 ### 3. Buenas prácticas de API REST
 - Cambia el path base de los controladores a `/api/v1/blueprints`.
 
