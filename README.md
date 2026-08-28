@@ -4,6 +4,7 @@
 
 Informe de laboratorio documentando el desarrollo de la API REST de blueprints, enmarcado en los principios de SOA (bajo acoplamiento, abstracción de servicios, autonomía, ausencia de estado, facilidad de descubrimiento y compatibilidad con estándares) vistos en clase.
 
+Informe de laboratorio documentando el desarrollo de la API REST de blueprints, enmarcado en los principios de SOA (bajo acoplamiento, abstracción de servicios, autonomía, ausencia de estado, facilidad de descubrimiento y compatibilidad con estándares) vistos en clase.
 ---
 
 ## 📋 Requisitos
