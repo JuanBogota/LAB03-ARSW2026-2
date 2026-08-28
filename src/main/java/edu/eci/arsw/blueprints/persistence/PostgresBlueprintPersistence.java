@@ -15,7 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
-@Primary // Resuelve la ambigüedad con InMemoryBlueprintPersistence: esta pasa a ser la implementación activa
+@Primary
 public class PostgresBlueprintPersistence implements BlueprintPersistence {
 
     private final BlueprintJpaRepository repo;
