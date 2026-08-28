@@ -1,6 +1,8 @@
 ## Laboratorio #4 – REST API Blueprints (Java 21 / Spring Boot 3.3.x)
 # Escuela Colombiana de Ingeniería – Arquitecturas de Software  
+# Carlos Duban Rojas y Juan Daniel Bogotá Fuentes
 
+Informe de laboratorio documentando el desarrollo de la API REST de blueprints, enmarcado en los principios de SOA (bajo acoplamiento, abstracción de servicios, autonomía, ausencia de estado, facilidad de descubrimiento y compatibilidad con estándares) vistos en clase.
 ---
 
 ## 📋 Requisitos
@@ -50,9 +52,37 @@ src/main/java/edu/eci/arsw/blueprints
 ## 📖 Actividades del laboratorio
 
 ### 1. Familiarización con el código base
-- Revisa el paquete `model` con las clases `Blueprint` y `Point`.  
-- Entiende la capa `persistence` con `InMemoryBlueprintPersistence`.  
+- Revisa el paquete `model` con las clases `Blueprint` y `Point`.
+
+**Model - El dominio**
+- **Point:** es un record inmutable, dos coordenadas y sin lógica por el momento.
+- **Blueprint:** representa un plano con autor, nombre y una lista de puntos. Cosas importantes: no tiene `id`, se identifica con `author + name`. Esta parte es clave al momento de migrar los datos a Postgres.
+- El método `getPoints()` devuelve una lista inmutable — protege el encapsulamiento; para agregar puntos hay que usar `addPoint()`.
+
+- Entiende la capa `persistence` con `InMemoryBlueprintPersistence`.
+
+**Persistence - El contrato**
+- `BlueprintPersistence` es una interfaz, no una clase.
+- `InMemoryBlueprintPersistence` es la única implementación que hay. Se usa un `ConcurrentHashMap<String, Blueprint>` en memoria, con clave `"author:name"` y viene con 3 blueprints de ejemplo precargados.
+- Es la pieza central de la arquitectura: nada más en el proyecto sabe que existe esta clase, el resto del sistema conoce solo la interfaz.
+
 - Analiza la capa `services` (`BlueprintsServices`) y el controlador `BlueprintsAPIController`.
+
+**Services - La lógica del negocio**
+- Ahí se encuentra la inversión de dependencias: el constructor pide es la interfaz, no directamente las clases concretas. Spring decide en tiempo de ejecución cuál implementación inyectar.
+- De aquí es que nos va a permitir, en la Actividad 2, cambiar a Postgres sin tocar esta clase.
+
+**Controller - La capa REST**
+- Por el momento expone 4 endpoints:
+  - `GET /blueprints`
+  - `GET /blueprints/{author}`
+  - `GET /blueprints/{author}/{bpname}`
+  - `POST /blueprints`
+  - `PUT /blueprints/{author}/{bpname}/points`
+- Cada uno atrapa sus excepciones de la capa de servicio (`BlueprintNotFoundException`, `BlueprintPersistenceException`) y las traduce a códigos HTTP. Hay que corregir algunos códigos porque, como están propuestos, no están del todo correctos.
+
+**Flujo general:**
+> Una petición HTTP llega al Controller, que llama a BlueprintServices, que llama a BlueprintPersistence, que devuelve un Blueprint del model.
 
 ### 2. Migración a persistencia en PostgreSQL
 - Configura una base de datos PostgreSQL (puedes usar Docker).  
